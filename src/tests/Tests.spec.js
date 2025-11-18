@@ -9,14 +9,13 @@ export const RateContentOK = new Rate('content_OK');
 
 export const options = {
   thresholds: {
-    http_req_failed: ['rate<0.30'],
-    get_contacts: ['p(99)<500'],
-    content_OK: ['rate>0.95']
+    http_req_failed: ['rate<0.25'], 
+    get_contacts: ['p(90)<6800'], 
+    content_OK: ['rate>0.75'] 
   },
   stages: [
-    { duration: '10s', target: 2 },
-    { duration: '10s', target: 4 },
-    { duration: '10s', target: 6 }
+    { duration: '1s', target: 7 },
+    { duration: '3m29s', target: 92 }
   ]
 };
 
@@ -28,7 +27,7 @@ export function handleSummary(data) {
 }
 
 export default function () {
-  const baseUrl = 'https://test.k6.io/';
+  const baseUrl = 'https://test-api.k6.io/public/crocodiles/'; 
 
   const params = {
     headers: {
@@ -45,6 +44,8 @@ export default function () {
   RateContentOK.add(res.status === OK);
 
   check(res, {
-    'GET Contacts - Status 200': () => res.status === OK
+    'GET Contacts - Status 200': (r) => r.status === OK,
+    'Retornou lista de dados': (r) => r.json().length > 0,
+    'Estrutura de dados correta': (r) => r.json()[0].hasOwnProperty('name')
   });
 }
