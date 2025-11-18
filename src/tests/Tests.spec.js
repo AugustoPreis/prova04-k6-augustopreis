@@ -9,9 +9,9 @@ export const RateContentOK = new Rate('content_OK');
 
 export const options = {
   thresholds: {
-    http_req_failed: ['rate<0.25'], 
-    get_contacts: ['p(90)<6800'], 
-    content_OK: ['rate>0.75'] 
+    http_req_failed: ['rate<0.25'],
+    get_contacts: ['p(90)<6800'],
+    content_OK: ['rate>0.75']
   },
   stages: [
     { duration: '1s', target: 7 },
@@ -27,7 +27,7 @@ export function handleSummary(data) {
 }
 
 export default function () {
-  const baseUrl = 'https://test-api.k6.io/public/crocodiles/'; 
+  const baseUrl = 'https://test-api.k6.io/public/crocodiles/';
 
   const params = {
     headers: {
@@ -44,6 +44,7 @@ export default function () {
   RateContentOK.add(res.status === OK);
 
   check(res, {
-    'GET Contacts - Status 200': (r) => r.status === OK,
+    'Status 200': (r) => r.status === OK,
+    'Interval < 6800': (r) => r.timings.duration < 6800,
   });
 }
