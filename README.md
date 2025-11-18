@@ -18,3 +18,6 @@ In order to execute this project you must follow the steps below:
 1. Run `npm run ci` to execute the entire test suite
 
 All execution reports can be found in `src/output`.
+
+Implemented tests:
+  - https://test-api.k6.io/public/crocodiles
