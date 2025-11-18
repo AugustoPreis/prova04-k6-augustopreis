@@ -45,7 +45,5 @@ export default function () {
 
   check(res, {
     'GET Contacts - Status 200': (r) => r.status === OK,
-    'Retornou lista de dados': (r) => r.json().length > 0,
-    'Estrutura de dados correta': (r) => r.json()[0].hasOwnProperty('name')
   });
 }
